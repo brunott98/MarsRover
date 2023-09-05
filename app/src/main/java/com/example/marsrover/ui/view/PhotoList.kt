@@ -1,5 +1,11 @@
 package com.example.marsrover.ui.view
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -34,33 +40,54 @@ fun PhotoList(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Photo(
     roverPhotoUiModel: RoverPhotoUiModel,
     onClick: (roverPhotoUiModel: RoverPhotoUiModel) -> Unit
 ) {
+    val animationDuration = 500
     Card(
-        modifier = Modifier.padding(16.dp).clickable {
-            onClick(roverPhotoUiModel)
-        }
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable {
+                onClick(roverPhotoUiModel)
+            }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Image(
-                    painter = painterResource(
-                        id = if (roverPhotoUiModel.isSaved) {
-                            R.drawable.ic_save
-                        } else {
-                            R.drawable.ic_save_outline
-                        }
-                    ), contentDescription = "save icon"
-                )
+                AnimatedContent(targetState = roverPhotoUiModel.isSaved, label = "",
+                    transitionSpec = {
+                        scaleIn(
+                            animationSpec = tween(
+                                animationDuration,
+                                delayMillis = animationDuration
+                            )
+                        ) with
+                                scaleOut(
+                                    animationSpec = tween(
+                                        animationDuration,
+                                        delayMillis = animationDuration
+                                    )
+                                )
+                    }) { targetState ->
+                    Image(
+                        painter = painterResource(
+                            id = if (targetState) {
+                                R.drawable.ic_save
+                            } else {
+                                R.drawable.ic_save_outline
+                            }
+                        ), contentDescription = "save icon"
+                    )
+                }
 
                 Text(
                     text = roverPhotoUiModel.roverName,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             AsyncImage(
@@ -69,9 +96,18 @@ fun Photo(
                 modifier = Modifier.height(300.dp)
             )
 
-            Text(text = stringResource(id = R.string.sol, roverPhotoUiModel.sol))
-            Text(text = stringResource(id = R.string.earth_date, roverPhotoUiModel.earthDate))
-            Text(text = roverPhotoUiModel.cameraFullName)
+            Text(
+                text = stringResource(id = R.string.sol, roverPhotoUiModel.sol),
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = stringResource(id = R.string.earth_date, roverPhotoUiModel.earthDate),
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = roverPhotoUiModel.cameraFullName,
+                style = MaterialTheme.typography.bodySmall
+            )
         }
 
     }
