@@ -1,4 +1,4 @@
-package com.example.marsrover.uimanifestlist
+package com.example.marsrover.ui.manifestlist
 
 import com.example.marsrover.MainCoroutineRule
 import com.example.marsrover.data.MarsRoverManifestRepo
