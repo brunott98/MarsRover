@@ -3,4 +3,5 @@ Projeto implementado em arquiterura MVVM em Jetpack Compose com Hilt, exibe imag
 
 
 Demonstração de funcionamento do aplicativo com tema night.
+
 https://github.com/brunott98/MarsRover/assets/104589217/4894b8d7-e4ee-4712-853e-64716316bf6c
