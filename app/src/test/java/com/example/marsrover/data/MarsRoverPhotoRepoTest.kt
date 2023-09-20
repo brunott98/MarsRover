@@ -302,11 +302,9 @@ class MarsRoverPhotoRepoTest {
 
                     )
 
-
             )
         )
-
-
+        
         assertEquals(expectedResult,result)
 
     }
